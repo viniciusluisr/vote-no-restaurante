@@ -1,7 +1,8 @@
-package br.com.vote.no.restaurante.service;
+package br.com.vote.no.restaurante.service.provider;
 
 import br.com.vote.no.restaurante.model.User;
 import br.com.vote.no.restaurante.repository.UserRepository;
+import br.com.vote.no.restaurante.service.UserService;
 import com.google.common.base.Preconditions;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

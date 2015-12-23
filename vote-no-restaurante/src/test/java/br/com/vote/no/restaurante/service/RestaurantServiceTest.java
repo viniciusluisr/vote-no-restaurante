@@ -4,6 +4,7 @@ import br.com.six2six.fixturefactory.Fixture;
 import br.com.vote.no.restaurante.exception.RestaurantNotFoundException;
 import br.com.vote.no.restaurante.model.Restaurant;
 import br.com.vote.no.restaurante.repository.RestaurantRepository;
+import br.com.vote.no.restaurante.service.provider.RestaurantServiceProvider;
 import br.com.vote.no.restaurante.support.TestFixtureSupport;
 import org.junit.Test;
 import org.junit.runner.RunWith;

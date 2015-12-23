@@ -3,7 +3,7 @@ package br.com.vote.no.restaurante.service;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.vote.no.restaurante.model.User;
 import br.com.vote.no.restaurante.repository.UserRepository;
-import br.com.vote.no.restaurante.service.UserServiceProvider;
+import br.com.vote.no.restaurante.service.provider.UserServiceProvider;
 import br.com.vote.no.restaurante.support.TestFixtureSupport;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +11,6 @@ import org.junit.runners.JUnit4;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import java.util.List;
 import java.util.Optional;
 
 /**

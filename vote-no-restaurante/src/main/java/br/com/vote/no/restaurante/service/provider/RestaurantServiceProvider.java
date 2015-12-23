@@ -1,8 +1,9 @@
-package br.com.vote.no.restaurante.service;
+package br.com.vote.no.restaurante.service.provider;
 
 import br.com.vote.no.restaurante.exception.RestaurantNotFoundException;
 import br.com.vote.no.restaurante.model.Restaurant;
 import br.com.vote.no.restaurante.repository.RestaurantRepository;
+import br.com.vote.no.restaurante.service.RestaurantService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.Optional;
  * Created by Vinicius on 22/12/15.
  */
 @Service
-public class RestaurantServiceProvider implements  RestaurantService {
+public class RestaurantServiceProvider implements RestaurantService {
 
     private Logger log = Logger.getLogger(RestaurantServiceProvider.class);
 

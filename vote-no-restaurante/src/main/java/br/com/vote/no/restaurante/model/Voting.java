@@ -12,6 +12,15 @@ import lombok.Data;
 @Data
 public class Voting extends BaseEntity {
 
+    public Voting() {
+
+    }
+
+    public Voting(Restaurant first, Restaurant second) {
+        this.first = first;
+        this.second = second;
+    }
+
     @ApiModelProperty(value = "O primeiro restaurante da Votação")
     private Restaurant first;
 
