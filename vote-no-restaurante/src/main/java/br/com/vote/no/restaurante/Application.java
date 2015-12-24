@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @EnableAutoConfiguration
-@ComponentScan
+@ComponentScan(basePackages = "br.com.vote.no.restaurante")
 public class Application {
 
     public static void main(String[] args) throws Exception {

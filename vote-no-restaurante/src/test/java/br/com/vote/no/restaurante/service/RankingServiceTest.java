@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +50,7 @@ public class RankingServiceTest extends TestFixtureSupport {
 
     @Test
     public void testGetGeneralRanking() {
-        when(rankingRepository.findAllByOrderByPoints()).thenReturn(expectedRankings);
+        when(rankingRepository.findAll(new Sort(Sort.Direction.DESC, "points"))).thenReturn(expectedRankings);
         List<Ranking> rankings = rankingService.getGeneralRanking();
         assertThat(expectedRankings, equalTo(rankings));
     }
