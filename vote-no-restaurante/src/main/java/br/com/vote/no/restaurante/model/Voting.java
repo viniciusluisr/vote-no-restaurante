@@ -16,7 +16,7 @@ public class Voting extends BaseEntity {
 
     }
 
-    public Voting(Restaurant first, Restaurant second) {
+    public Voting(final Restaurant first, final Restaurant second) {
         this.first = first;
         this.second = second;
     }

@@ -10,33 +10,31 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Created by Vinicius on 22/12/15.
+ * Created by Vinicius on 24/12/15.
  */
-@ApiModel("Objeto que representa um Voto")
+@ApiModel("Objeto que representa um Restaurante")
 @Data
 @Entity
-public class Vote extends BaseEntity {
+public class Ranking extends BaseEntity {
 
-    public Vote() {}
+    public Ranking(){}
 
-    public Vote(final Restaurant restaurant, final User user) {
+    public Ranking(final Restaurant restaurant, final Integer points) {
         this.restaurant = restaurant;
-        this.user = user;
+        this.points = points;
     }
 
-    @ApiModelProperty(value = "O ID do Voto")
+    @ApiModelProperty(value = "O ID do Ranking")
     @Id
     @GeneratedValue
     private final Long id = null;
 
-    @ApiModelProperty(value = "O restaurante votado")
+    @ApiModelProperty(value = "O Restaurante correspondente a este ranking")
     @JoinColumn(nullable = false)
     @ManyToOne
     private Restaurant restaurant;
 
-    @ApiModelProperty(value = "O usuário votante")
-    @JoinColumn(nullable = false)
-    @ManyToOne
-    private User user;
-
+    @ApiModelProperty(value = "a pontuação do Restaurante correspondente a este ranking")
+    @Column()
+    private Integer points;
 }

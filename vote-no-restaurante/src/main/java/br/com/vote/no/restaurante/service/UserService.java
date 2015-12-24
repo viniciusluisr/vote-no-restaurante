@@ -1,7 +1,9 @@
 package br.com.vote.no.restaurante.service;
 
 import br.com.vote.no.restaurante.model.User;
+import br.com.vote.no.restaurante.model.Vote;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -9,5 +11,5 @@ import java.util.Optional;
  */
 public interface UserService {
 
-    Optional<User> createUser(final User user);
+    Optional<User> createUser(final User user, final List<Vote> votes);
 }

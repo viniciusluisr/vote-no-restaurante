@@ -23,7 +23,7 @@ public class User extends BaseEntity {
 
     public User() {}
 
-    public User(String email, String name) {
+    public User(final String email, final String name) {
         this.email = email;
         this.name = name;
     }

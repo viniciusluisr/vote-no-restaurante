@@ -23,7 +23,7 @@ public class Restaurant extends BaseEntity {
 
     public Restaurant() {}
 
-    public Restaurant(String name, String logo) {
+    public Restaurant(final String name, final String logo) {
         this.name = name;
         this.logo = logo;
 
