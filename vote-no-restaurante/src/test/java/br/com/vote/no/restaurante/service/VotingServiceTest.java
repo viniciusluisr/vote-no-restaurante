@@ -1,6 +1,7 @@
 package br.com.vote.no.restaurante.service;
 
 import br.com.six2six.fixturefactory.Fixture;
+import br.com.vote.no.restaurante.exception.RestaurantNotFoundException;
 import br.com.vote.no.restaurante.model.Restaurant;
 import br.com.vote.no.restaurante.model.Voting;
 import br.com.vote.no.restaurante.repository.RestaurantRepository;
@@ -35,7 +36,6 @@ public class VotingServiceTest extends TestFixtureSupport {
     public void setUp() {
         expecteds = getExpectedRestaurants();
         expected = getExpectedRestaurant();
-        when(restaurantService.findRestaurantById(any(Long.class))).thenReturn(expected);
         when(restaurantService.findAll()).thenReturn(expecteds);
     }
 
@@ -52,6 +52,7 @@ public class VotingServiceTest extends TestFixtureSupport {
 
     @Test
     public void testVoting() {
+        when(restaurantService.findRestaurantById(any(Long.class))).thenReturn(expected);
         testBeginVoting();
         voting = votingService.voting(1l);
 
@@ -65,6 +66,7 @@ public class VotingServiceTest extends TestFixtureSupport {
 
     @Test
     public void testVotingNoMoreLines() {
+        when(restaurantService.findRestaurantById(any(Long.class))).thenReturn(expected);
         testBeginVoting();
         Voting expectedVoting = new Voting();
 
@@ -72,6 +74,12 @@ public class VotingServiceTest extends TestFixtureSupport {
             voting = votingService.voting(1l);
 
         assertThat(expectedVoting, equalTo(voting.get()));
+    }
+
+    @Test(expected = RestaurantNotFoundException.class)
+    public void testVotingWithNoExistingId() {
+        testBeginVoting();
+        voting = votingService.voting(201l);
     }
 
     private List<Restaurant> getExpectedRestaurants() {

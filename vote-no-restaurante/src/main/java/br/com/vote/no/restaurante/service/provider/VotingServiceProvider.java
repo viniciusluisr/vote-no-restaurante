@@ -1,5 +1,6 @@
 package br.com.vote.no.restaurante.service.provider;
 
+import br.com.vote.no.restaurante.exception.RestaurantNotFoundException;
 import br.com.vote.no.restaurante.model.Restaurant;
 import br.com.vote.no.restaurante.model.Voting;
 import br.com.vote.no.restaurante.service.RestaurantService;
@@ -38,6 +39,9 @@ public class VotingServiceProvider implements VotingService {
             return Optional.of(new Voting());
 
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(restaurantId);
+
+        if(restaurant == null)
+            throw  new RestaurantNotFoundException("Restaurante não encontrado, por favor, verifique o Id informado");
 
         Restaurant second = new Restaurant();
         if(restaurants.peek().equals(restaurant.get())) {
