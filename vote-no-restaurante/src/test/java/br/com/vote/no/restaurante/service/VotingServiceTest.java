@@ -2,16 +2,20 @@ package br.com.vote.no.restaurante.service;
 
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.vote.no.restaurante.exception.RestaurantNotFoundException;
+import br.com.vote.no.restaurante.exception.VotingDidNotBeginException;
 import br.com.vote.no.restaurante.model.Restaurant;
 import br.com.vote.no.restaurante.model.Voting;
 import br.com.vote.no.restaurante.repository.RestaurantRepository;
 import br.com.vote.no.restaurante.service.provider.VotingServiceProvider;
+import br.com.vote.no.restaurante.support.TestApiEndpoints;
 import br.com.vote.no.restaurante.support.TestFixtureSupport;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.*;
 
@@ -80,6 +84,11 @@ public class VotingServiceTest extends TestFixtureSupport {
     public void testVotingWithNoExistingId() {
         testBeginVoting();
         voting = votingService.voting(201l);
+    }
+
+    @Test(expected = VotingDidNotBeginException.class)
+    public void testVotingWithoutVotingStarted() {
+        voting = votingService.voting(1l);
     }
 
     private List<Restaurant> getExpectedRestaurants() {

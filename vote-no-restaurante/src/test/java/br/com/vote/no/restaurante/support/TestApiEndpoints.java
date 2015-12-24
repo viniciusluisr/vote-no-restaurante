@@ -22,9 +22,12 @@ public class TestApiEndpoints {
         return new TestRestTemplate().getForEntity(VOTING_ENDPOINT, Voting.class);
     }
 
+    public static ResponseEntity<Voting> voting(final Long restaurantId) {
+        return new TestRestTemplate().getForEntity(VOTING_ENDPOINT + "/" + restaurantId, Voting.class);
+    }
+
     public static ResponseEntity<RestaurantResponse> findAllRestaurants() {
         return new TestRestTemplate().getForEntity(RESTAURANT_ENDPOINT, RestaurantResponse.class);
-
     }
 
 }

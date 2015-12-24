@@ -1,6 +1,7 @@
 package br.com.vote.no.restaurante.service.provider;
 
 import br.com.vote.no.restaurante.exception.RestaurantNotFoundException;
+import br.com.vote.no.restaurante.exception.VotingDidNotBeginException;
 import br.com.vote.no.restaurante.model.Restaurant;
 import br.com.vote.no.restaurante.model.Voting;
 import br.com.vote.no.restaurante.service.RestaurantService;
@@ -35,6 +36,9 @@ public class VotingServiceProvider implements VotingService {
     public Optional<Voting> voting(final Long restaurantId) {
         Preconditions.checkNotNull(restaurantId);
 
+        if(restaurants == null)
+            throw  new VotingDidNotBeginException("A votação não foi iniciada, por favor, inicie a votação usando o resource /votings");
+
         if(restaurants.isEmpty())
             return Optional.of(new Voting());
 
@@ -52,7 +56,5 @@ public class VotingServiceProvider implements VotingService {
 
         return Optional.of(new Voting(restaurant.get(), second));
     }
-
-
 
 }
