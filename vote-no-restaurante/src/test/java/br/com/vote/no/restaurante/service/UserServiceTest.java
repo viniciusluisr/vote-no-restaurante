@@ -41,6 +41,7 @@ public class UserServiceTest extends TestFixtureSupport {
     private List<Vote> expectedVotes;
     private Optional<Restaurant> expectedRestaurant;
     private Optional<Ranking> expectedRanking;
+    private Vote expectedVote;
 
     @Override
     public void setUp() {
@@ -48,15 +49,17 @@ public class UserServiceTest extends TestFixtureSupport {
         expectedVotes = getExpectedVotes();
         expectedRestaurant = getExpectedRestaurant();
         expectedRanking = getExpectedRanking();
+        expectedVote = getExpectedVote();
         when(voteRepository.save(any(Vote.class))).thenReturn(expectedVotes.get(0));
+        expectedVote.setUser(expected.get());
     }
 
     @Test
     public void testCreateUser() {
         when(userRepository.findByEmail(any(String.class))).thenReturn(null);
-        when(userRepository.save(any(User.class))).thenReturn(expected.get());
+        when(voteRepository.save(any(Vote.class))).thenReturn(expectedVote);
         testRefreshRanking();
-        Optional<User> saved = userService.createUser(getExpectedUserWithoutId().get(), expectedVotes);
+        Optional<User> saved = userService.createUser(expected.get(), expectedVotes);
         assertThat(expected, equalTo(saved));
     }
 
@@ -72,7 +75,6 @@ public class UserServiceTest extends TestFixtureSupport {
     public void testCreateUserWithInvalidFields() {
         User user = new User();
         when(userRepository.findByEmail(any(String.class))).thenReturn(null);
-        when(userRepository.save(any(User.class))).thenReturn(expected.get());
         testRefreshRanking();
         Optional<User> saved = userService.createUser(user, expectedVotes);
         assertThat(expected, equalTo(user));
@@ -84,7 +86,6 @@ public class UserServiceTest extends TestFixtureSupport {
         when(rankingRepository.findByRestaurant(any(Restaurant.class))).thenReturn(expectedRanking);
     }
 
-
     private Optional<User> getExpectedUser() {
         return Optional.of(Fixture.from(User.class).gimme("valid"));
     }
@@ -95,6 +96,10 @@ public class UserServiceTest extends TestFixtureSupport {
 
     private List<Vote> getExpectedVotes() {
         return Fixture.from(Vote.class).gimme(2,"valid");
+    }
+
+    private Vote getExpectedVote() {
+        return Fixture.from(Vote.class).gimme("valid");
     }
 
     private Optional<Restaurant> getExpectedRestaurant() {

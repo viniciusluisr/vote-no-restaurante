@@ -1,10 +1,12 @@
 package br.com.vote.no.restaurante.service.provider;
 
+import br.com.vote.no.restaurante.exception.UserNotFoundException;
 import br.com.vote.no.restaurante.model.Ranking;
 import br.com.vote.no.restaurante.model.Restaurant;
 import br.com.vote.no.restaurante.model.User;
 import br.com.vote.no.restaurante.model.Vote;
 import br.com.vote.no.restaurante.repository.RankingRepository;
+import br.com.vote.no.restaurante.repository.UserRepository;
 import br.com.vote.no.restaurante.repository.VoteRepository;
 import br.com.vote.no.restaurante.service.RankingService;
 import br.com.vote.no.restaurante.service.RestaurantService;
@@ -14,9 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +33,8 @@ public class RankingServiceProvider implements RankingService {
     private VoteRepository voteRepository;
     @Autowired
     private RestaurantService restaurantService;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<Ranking> getGeneralRanking() {
@@ -41,25 +43,25 @@ public class RankingServiceProvider implements RankingService {
     }
 
     @Override
-    public List<Ranking> getRankingByUser(final User user) {
-        Preconditions.checkNotNull(user);
+    public List<Ranking> getRankingByUser(final Long userId) {
+        Preconditions.checkNotNull(userId);
+
+        User user = userRepository.findOne(userId);
+
+        if(user == null)
+            throw  new UserNotFoundException("Usuário não encontrado, por favor, verifique o id informado: " + userId);
 
         log.info("Obtendo o ranking do usuário: " + user.toString());
 
-        List<Ranking> rankings = null;
+        List<Ranking> rankings = new ArrayList<>();
         List<Vote> votes = voteRepository.findByUser(user);
         Map<Long, List<Vote>> votesByRestaurant = votes.stream().collect(Collectors.groupingBy(v -> v.getRestaurant().getId()));
 
         for(Long id : votesByRestaurant.keySet())   {
             Optional<Ranking> ranking = rankingRepository.findByRestaurant(restaurantService.findRestaurantById(id).get());
-            ranking.ifPresent( r -> {
-                Integer points = r.getPoints();
-                points += votesByRestaurant.get(id).size();
-                r.setPoints(points);
-                rankings.add(r);
-            });
+            rankings.add(ranking.get());
         }
-
+        rankings.sort(Comparator.comparing(Ranking::getPoints));
         return rankings;
     }
 

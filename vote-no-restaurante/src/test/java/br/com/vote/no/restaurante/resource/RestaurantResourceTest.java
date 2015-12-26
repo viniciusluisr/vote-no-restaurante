@@ -2,7 +2,7 @@ package br.com.vote.no.restaurante.resource;
 
 import br.com.vote.no.restaurante.Application;
 import br.com.vote.no.restaurante.model.Restaurant;
-import br.com.vote.no.restaurante.model.Voting;
+import br.com.vote.no.restaurante.resource.param.RestaurantResponse;
 import br.com.vote.no.restaurante.support.TestApiEndpoints;
 import br.com.vote.no.restaurante.support.TestFixtureSupport;
 import org.junit.Test;
@@ -15,7 +15,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**

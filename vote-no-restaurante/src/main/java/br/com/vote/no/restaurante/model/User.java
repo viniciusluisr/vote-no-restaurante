@@ -6,12 +6,10 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * Created by Vinicius on 22/12/15.
@@ -45,4 +43,5 @@ public class User extends BaseEntity {
     @NotNull(message = "Por favor, preencha o Nome!!")
     @Column(nullable = false, length = 200)
     private String name;
+
 }

@@ -1,9 +1,8 @@
 package br.com.vote.no.restaurante.resource;
 
 import br.com.vote.no.restaurante.model.Restaurant;
-import br.com.vote.no.restaurante.model.Voting;
+import br.com.vote.no.restaurante.resource.param.RestaurantResponse;
 import br.com.vote.no.restaurante.service.RestaurantService;
-import br.com.vote.no.restaurante.service.VotingService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by Vinicius on 24/12/15.
@@ -25,7 +23,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "/v1/restaurants")
 @Validated
-@Api(value = "API de Restaurantes", description = "Essa API tem como objetivo expor as operações relacionadas a os restaurantes", basePath = "/v1/restaurants", produces = "application/json")
+@Api(value = "API de Restaurantes", description = "Essa API tem como objetivo expor as operações relacionadas a restaurantes", basePath = "/v1/restaurants", produces = "application/json")
 public class RestaurantResource {
 
     @Autowired

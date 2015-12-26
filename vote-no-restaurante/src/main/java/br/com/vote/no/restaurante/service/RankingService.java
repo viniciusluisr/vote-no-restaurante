@@ -11,6 +11,6 @@ import java.util.List;
 public interface RankingService {
 
     List<Ranking> getGeneralRanking();
-    List<Ranking> getRankingByUser(final User user);
+    List<Ranking> getRankingByUser(final Long userId);
 
 }

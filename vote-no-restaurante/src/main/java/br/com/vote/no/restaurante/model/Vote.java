@@ -4,8 +4,11 @@ import br.com.vote.no.restaurante.model.base.BaseEntity;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -36,7 +39,7 @@ public class Vote extends BaseEntity {
 
     @ApiModelProperty(value = "O usuário votante")
     @JoinColumn(nullable = false)
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     private User user;
 
 }

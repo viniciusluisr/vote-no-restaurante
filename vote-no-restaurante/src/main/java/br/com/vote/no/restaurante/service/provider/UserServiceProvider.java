@@ -13,6 +13,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -44,16 +46,19 @@ public class UserServiceProvider implements UserService {
 
         log.info("Cadastrando um novo usuário: " + user.toString() + " com os seguintes votos: " + votes.toString());
 
-        User found = userRepository.findByEmail(user.getEmail());
-        if(found != null) return Optional.of(found);
+        final User found = userRepository.findByEmail(user.getEmail());
 
         votes.forEach(vote -> {
+            if(found != null)
+                vote.setUser(found);
+            else
+                vote.setUser(user);
             voteRepository.save(vote);
         });
 
         refreshRanking(votes);
 
-        return Optional.of(userRepository.save(user));
+        return found != null ? Optional.of(found) : Optional.of(user);
     }
 
     private void refreshRanking(final List<Vote> votes) {
@@ -61,14 +66,18 @@ public class UserServiceProvider implements UserService {
 
         for(Long id : votesByRestaurant.keySet())   {
             Optional<Ranking> ranking = rankingRepository.findByRestaurant(restaurantService.findRestaurantById(id).get());
-            ranking.ifPresent( r -> {
-                Integer points = r.getPoints();
+            Integer points = null;
+            if(ranking.isPresent()) {
+                points = ranking.get().getPoints();
                 points += votesByRestaurant.get(id).size();
-                r.setPoints(points);
-                rankingRepository.save(r);
-             });
+                ranking.get().setPoints(points);
+                rankingRepository.save(ranking.get());
+            } else {
+                points =+ votesByRestaurant.get(id).size();
+                Ranking newRanking = new Ranking(restaurantService.findRestaurantById(id).get(), points);
+                rankingRepository.save(newRanking);
+            }
         }
-
     }
 
 }
