@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/v1/users")
 @Validated
-@Api(value = "API de Usuários", description = "Essa API tem como objetivo expor as operações relacionadas a usuários", basePath = "/v1/users", produces = "application/json")
+@Api(value = "API de Usuarios", description = "Essa API tem como objetivo expor as operações relacionadas a usuários", basePath = "/v1/users", produces = "application/json")
 public class UserResource {
 
     @Autowired

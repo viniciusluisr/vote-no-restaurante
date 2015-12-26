@@ -23,7 +23,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "/v1/votings")
 @Validated
-@Api(value = "API de Votação", description = "Essa API tem como objetivo expor as operações necessárias para o mecanismo de votação", basePath = "/v1/votings", produces = "application/json")
+@Api(value = "API de Votacao", description = "Essa API tem como objetivo expor as operações necessárias para o mecanismo de votação", basePath = "/v1/votings", produces = "application/json")
 public class VotingResource {
 
     @Autowired
