@@ -71,7 +71,7 @@ public class RankingServiceTest extends TestFixtureSupport {
                 list.add(rankingsByRestaurant.get(restaurant).get(0));
             }
         }
-
+        list.sort(Comparator.comparing(Ranking::getPoints).reversed());
         assertThat(list, equalTo(rankings));
     }
 
