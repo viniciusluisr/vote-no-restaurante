@@ -54,6 +54,7 @@ public class RankingServiceProvider implements RankingService {
             }
         }
 
+        rankings.sort(Comparator.comparing(Ranking::getPoints).reversed());
         return rankings;
     }
 
