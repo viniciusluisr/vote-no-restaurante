@@ -29,7 +29,7 @@ public class SwaggerConfig {
     public static final List<String> DEFAULT_INCLUDE_PATTERNS = Arrays.asList("/v1/.*");
     public static final String SWAGGER_GROUP = "vote-no-restaurante-api";
 
-    private String docsLocation = "http://localhost:7000";
+    private String docsLocation = "https://vote-no-restaurante-apis.herokuapp.com";
 
     @Autowired
     private SpringSwaggerConfig springSwaggerConfig;
