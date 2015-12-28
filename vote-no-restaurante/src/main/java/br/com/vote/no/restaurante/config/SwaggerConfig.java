@@ -32,8 +32,8 @@ public class SwaggerConfig {
     /**
      * To deploy to heroku, please use this one
      */
-//    private String docsLocation = "https://vote-no-restaurante-apis.herokuapp.com";
-    private String docsLocation = "http://localhost:7000";
+    private String docsLocation = "https://vote-no-restaurante-apis.herokuapp.com";
+//    private String docsLocation = "http://localhost:7000";
 
     @Autowired
     private SpringSwaggerConfig springSwaggerConfig;

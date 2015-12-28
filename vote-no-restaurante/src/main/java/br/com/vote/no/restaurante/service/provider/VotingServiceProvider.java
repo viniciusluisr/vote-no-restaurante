@@ -24,37 +24,111 @@ public class VotingServiceProvider implements VotingService {
     @Autowired
     private RestaurantService restaurantService;
     private LinkedList<Restaurant> restaurants;
+    private LinkedList<Restaurant> preferences;
+    private Restaurant first;
+    private Restaurant second;
 
     @Override
     public Optional<Voting> beginVoting() {
+        log.info("Iniciando uma nova votação");
+
         restaurants = new LinkedList<>();
+        preferences = new LinkedList<>();
         restaurants.addAll(restaurantService.findAll());
-        return Optional.of(new Voting(restaurants.poll(), restaurants.poll()));
+        getNextVoting();
+
+        return Optional.of(new Voting(first, second));
     }
 
     @Override
     public Optional<Voting> voting(final Long restaurantId) {
         Preconditions.checkNotNull(restaurantId);
 
-        if(restaurants == null)
-            throw  new VotingDidNotBeginException("A votação não foi iniciada, por favor, inicie a votação usando o resource /votings");
-
-        if(restaurants.isEmpty())
-            return Optional.of(new Voting());
+        if (restaurants == null)
+            throw new VotingDidNotBeginException("A votação não foi iniciada, por favor, inicie a votação usando o resource /votings");
 
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(restaurantId);
 
         if(restaurant == null)
             throw  new RestaurantNotFoundException("Restaurante não encontrado, por favor, verifique o Id informado");
 
-        Restaurant second = new Restaurant();
-        if(restaurants.peek().equals(restaurant.get())) {
-            restaurants.remove();
-            second = restaurants.poll();
-        } else
-            second = restaurants.poll();
+        log.info("Realizado um novo voto para o restaurante: " + restaurant.toString());
 
-        return Optional.of(new Voting(restaurant.get(), second));
+        if(restaurant.get().equals(first))
+            preparePreference(first, second);
+        else
+            preparePreference(second, first);
+
+        if(restaurants.size() > preferences.size()){
+            return Optional.of(new Voting(first, second));
+        }else{
+            return Optional.of(new Voting());
+        }
+
     }
+
+    private void preparePreference(Restaurant selected, Restaurant discarded) {
+        if(selected == null) return;
+
+        if(preferences.isEmpty()) {
+            preferences.add(selected);
+            preferences.add(discarded);
+            getNextVoting();
+            return;
+        }
+
+        if(selected.equals(first)) {
+            Integer posterior = getPosition(selected, true, false);
+
+            if(preferences.size() == posterior){
+                preferences.add(discarded);
+                getNextVoting();
+            }else{
+                Restaurant next = preferences.get(posterior);
+                first = next;
+            }
+        }else{
+            Integer position = getPosition(discarded, false, false);
+            preferences.add(position, selected);
+            getNextVoting();
+        }
+    }
+
+    private Restaurant notVotedRestaurant() {
+        for (Restaurant restaurant : restaurants) {
+            if(!preferences.contains(restaurant)) return restaurant;
+        }
+        return null;
+    }
+
+    private Integer getPosition(Restaurant restaurante, boolean posterior, boolean previous){
+        Integer position = 0;
+        for(int i = 0; i < preferences.size(); i++){
+            if(restaurante.equals(preferences.get(i))){
+                position = i;
+                break;
+            }
+        }
+
+        if(posterior)
+            return ++position;
+        else if(previous)
+            return --position;
+        else
+            return position;
+
+    }
+
+    private void getNextVoting() {
+        if (preferences.isEmpty()) {
+            first = restaurants.get(0);
+            second = restaurants.get(1);
+        } else {
+            first = preferences.get(0);
+            second = notVotedRestaurant();
+        }
+    }
+
+
 
 }

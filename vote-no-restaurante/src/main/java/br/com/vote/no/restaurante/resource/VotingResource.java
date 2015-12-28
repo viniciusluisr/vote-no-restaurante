@@ -1,6 +1,7 @@
 package br.com.vote.no.restaurante.resource;
 
 import br.com.vote.no.restaurante.model.Voting;
+import br.com.vote.no.restaurante.resource.param.VotingRequest;
 import br.com.vote.no.restaurante.service.VotingService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
