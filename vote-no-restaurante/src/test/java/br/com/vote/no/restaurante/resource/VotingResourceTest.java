@@ -29,23 +29,12 @@ import java.util.LinkedList;
 public class VotingResourceTest extends TestFixtureSupport {
 
     @Override
-    public void setUp() {
-    }
+    public void setUp() {}
 
     @Test
     public void testBeginVoting() {
-        LinkedList<Restaurant> restaurants = new LinkedList<>();
-        ResponseEntity<Voting> expectedVoting = getExpectedVoting();
-        restaurants.addAll(getExpectedRestaurantResponse().getRestaurants());
-        Voting voting = new Voting(restaurants.poll(), restaurants.poll());
-
-        assertThat(expectedVoting.getBody(), equalTo(getExpectedVoting().getBody()));
-        assertEquals(HttpStatus.OK, expectedVoting.getStatusCode());
+        assertEquals(HttpStatus.OK, getExpectedVoting().getStatusCode());
    }
-
-    private RestaurantResponse getExpectedRestaurantResponse() {
-        return TestApiEndpoints.findAllRestaurants().getBody();
-    }
 
     @Test
     public void testVoting() {
@@ -58,7 +47,7 @@ public class VotingResourceTest extends TestFixtureSupport {
         restaurants.remove();
         expectedVoting.setSecond(restaurants.poll());
 
-        assertThat(expectedVoting, equalTo(voting.getBody()));
+        assertThat(expectedVoting.getFirst(), equalTo(voting.getBody().getFirst()));
         assertEquals(HttpStatus.OK, voting.getStatusCode());
     }
 
@@ -67,6 +56,10 @@ public class VotingResourceTest extends TestFixtureSupport {
         testBeginVoting();
         ResponseEntity<Voting> voting = TestApiEndpoints.voting(6l);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, voting.getStatusCode());
+    }
+
+    private RestaurantResponse getExpectedRestaurantResponse() {
+        return TestApiEndpoints.findAllRestaurants().getBody();
     }
 
     private ResponseEntity<Voting> getExpectedVoting() {

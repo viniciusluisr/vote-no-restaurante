@@ -84,6 +84,29 @@ public class UserResourceTest extends TestFixtureSupport {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
     }
 
+    @Test
+    public void testFindUserByEmail() {
+        ResponseEntity<RestaurantResponse> restaurantResponse = TestApiEndpoints.findAllRestaurants();
+        Vote vote1 = new Vote(restaurantResponse.getBody().getRestaurants().get(0), null);
+        Vote vote2 = new Vote(restaurantResponse.getBody().getRestaurants().get(1), null);
+
+        List<Vote> expectedVotes = Arrays.asList(vote1, vote2);
+
+        UserRequest userRequest = new UserRequest(getExpectedUserWithoutId().get(), expectedVotes);
+
+        ResponseEntity<User> expected = TestApiEndpoints.createUser(userRequest);
+
+        ResponseEntity<User> responseEntity = TestApiEndpoints.findUserByEmail(expected.getBody().getEmail());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertThat(expected.getBody(), equalTo(responseEntity.getBody()));
+    }
+
+    @Test
+    public void testFindUserByEmailWithNoExistingEmail() {
+        ResponseEntity<User> responseEntity = TestApiEndpoints.findUserByEmail("fulano@gmail.com");
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+    }
+
     private Optional<User> getExpectedUserWithoutId() {
         return Optional.of(Fixture.from(User.class).gimme("validWithoutId"));
     }

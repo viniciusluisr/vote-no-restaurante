@@ -38,6 +38,10 @@ public class TestApiEndpoints {
         return new TestRestTemplate().postForEntity(USER_ENDPOINT, user, User.class, Collections.EMPTY_MAP);
     }
 
+    public static ResponseEntity<User> findUserByEmail(final String email) {
+        return new TestRestTemplate().getForEntity(USER_ENDPOINT + "/" + email, User.class);
+    }
+
     public static ResponseEntity<RankingResponse> getRankingByUser(final Long userId) {
         return new TestRestTemplate().getForEntity(RANKING_ENDPOINT + "/" + userId, RankingResponse.class);
     }

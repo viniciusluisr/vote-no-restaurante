@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface UserService {
 
     Optional<User> createUser(final User user, final List<Vote> votes);
+    Optional<User> findUserByEmail(final String email);
 }

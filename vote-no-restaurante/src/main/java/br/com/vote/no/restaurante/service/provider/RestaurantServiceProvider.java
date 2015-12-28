@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.google.common.base.Preconditions;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +41,8 @@ public class RestaurantServiceProvider implements RestaurantService {
 
     @Override
     public List<Restaurant> findAll() {
-        return restaurantRepository.findAll();
+        List<Restaurant> restaurants = restaurantRepository.findAll();
+        Collections.shuffle(restaurants);
+        return restaurants;
     }
 }

@@ -19,6 +19,7 @@ public class RankingTemplateLoader implements TemplateLoader {
             {
                 add("id", random(Long.class, range(1L, 200L)));
                 add("restaurant", one(Restaurant.class, "valid"));
+                add("user", one(User.class, "valid"));
                 add("points", random(Integer.class, range(1, 200)));
             }
         });

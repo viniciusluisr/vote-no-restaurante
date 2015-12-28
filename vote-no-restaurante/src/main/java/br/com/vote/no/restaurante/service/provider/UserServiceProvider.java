@@ -1,5 +1,6 @@
 package br.com.vote.no.restaurante.service.provider;
 
+import br.com.vote.no.restaurante.exception.UserNotFoundException;
 import br.com.vote.no.restaurante.model.Ranking;
 import br.com.vote.no.restaurante.model.User;
 import br.com.vote.no.restaurante.model.Vote;
@@ -59,6 +60,18 @@ public class UserServiceProvider implements UserService {
         refreshRanking(votes, found != null ? found : user);
 
         return found != null ? Optional.of(found) : Optional.of(user);
+    }
+
+    @Override
+    public Optional<User> findUserByEmail(final String email) {
+        Preconditions.checkNotNull(email);
+        log.info("Consultado usuário pelo email: " + email);
+
+        User user = userRepository.findByEmail(email);
+        if(user == null)
+            throw  new UserNotFoundException("Usuário não encontrado, por favor, verifique o email informado: " + email);
+
+        return Optional.of(user);
     }
 
     private void refreshRanking(final List<Vote> votes, final User user) {

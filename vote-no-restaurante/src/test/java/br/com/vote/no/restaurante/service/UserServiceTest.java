@@ -1,6 +1,7 @@
 package br.com.vote.no.restaurante.service;
 
 import br.com.six2six.fixturefactory.Fixture;
+import br.com.vote.no.restaurante.exception.UserNotFoundException;
 import br.com.vote.no.restaurante.model.Ranking;
 import br.com.vote.no.restaurante.model.Restaurant;
 import br.com.vote.no.restaurante.model.User;
@@ -84,6 +85,18 @@ public class UserServiceTest extends TestFixtureSupport {
     public void testRefreshRanking() {
         when(restaurantService.findRestaurantById(any(Long.class))).thenReturn(expectedRestaurant);
         when(rankingRepository.findByRestaurantAndUser(any(Restaurant.class), any(User.class))).thenReturn(expectedRanking);
+    }
+
+    @Test
+    public void testFindUserByEmail() {
+        when(userRepository.findByEmail(any(String.class))).thenReturn(expected.get());
+        Optional<User> user = userService.findUserByEmail(expected.get().getEmail());
+        assertThat(expected, equalTo(user));
+    }
+
+    @Test(expected = UserNotFoundException.class)
+    public void testFindUserByEmailWithNoExistingEmail() {
+        Optional<User> user = userService.findUserByEmail(getExpectedUser().get().getEmail());
     }
 
     private Optional<User> getExpectedUser() {

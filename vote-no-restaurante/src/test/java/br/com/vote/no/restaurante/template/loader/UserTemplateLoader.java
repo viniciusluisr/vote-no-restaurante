@@ -17,14 +17,14 @@ public class UserTemplateLoader implements TemplateLoader {
             {
                 add("id", random(Long.class, range(1L, 200L)));
                 add("name", random("Vinícius Rodrigues", "Giovani Mendes", "Amanda Cristina", "Pablo Monteiro", "Douglas Schmitz"));
-                add("email", random("viniciusluisr@gmail.com","Giovani.mendes@outlook.com","amanda.cris@icloud.com"));
+                add("email", random("viniciusluisr@gmail.com","giovani.mendes@outlook.com","amanda.cris@icloud.com", "plano.monteiro@gmail.com", "douglas.schmitz@bol.com.br"));
             }
         });
 
         Fixture.of(User.class).addTemplate("validWithoutId", new Rule() {
             {
                 add("name", random("Vinícius Rodrigues", "Giovani Mendes", "Amanda Cristina", "Pablo Monteiro", "Douglas Schmitz"));
-                add("email", random("viniciusluisr@gmail.com","Giovani.mendes@outlook.com","amanda.cris@icloud.com"));
+                add("email", random("viniciusluisr@gmail.com","giovani.mendes@outlook.com","amanda.cris@icloud.com", "plano.monteiro@gmail.com", "douglas.schmitz@bol.com.br"));
             }
         });
     }

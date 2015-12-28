@@ -1,7 +1,6 @@
 package br.com.vote.no.restaurante.resource;
 
 import br.com.vote.no.restaurante.model.User;
-import br.com.vote.no.restaurante.model.Vote;
 import br.com.vote.no.restaurante.resource.param.UserRequest;
 import br.com.vote.no.restaurante.service.UserService;
 import com.wordnik.swagger.annotations.Api;
@@ -12,12 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Vinicius on 26/12/15.
@@ -33,7 +27,13 @@ public class UserResource {
 
     @ApiOperation(value = "Cria um usuário, computa seus votos e atualiza o ranking de restaurantes", notes = "Deve receber um objeto usuário e a lista de votos", response = User.class)
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public HttpEntity<User> createUser(@RequestBody UserRequest userRequest) {
+    public HttpEntity<User> createUser(@RequestBody final UserRequest userRequest) {
         return new ResponseEntity<User>(userService.createUser(userRequest.getUser(), userRequest.getVotes()).get(), HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "Consulta um usuário existente a partir de um email", notes = "Retorna o objeto usuário encontrado", response = User.class)
+    @RequestMapping(value = "/{email:.+}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public HttpEntity<User> getUserByEmail(@PathVariable String email) {
+        return new ResponseEntity<User>(userService.findUserByEmail(email).get(), HttpStatus.OK);
     }
 }
