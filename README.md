@@ -20,7 +20,7 @@
 
 https://github.com/viniciusluisr/vote-no-restaurante-app
 
-- O projeto também está disponível em: https://vote-no-restaurante-app.herokuapp.com
+- O projeto também está disponível em: https://vote-no-restaurante-apis.herokuapp.com
 
 #ENDPOINTS:
 - Ranking API:
