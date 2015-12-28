@@ -16,11 +16,11 @@ public class RestaurantTemplateLoader implements TemplateLoader {
             {
                 add("id", random(Long.class, range(1L, 200L)));
                 add("name", random("Habib's", "Black Dog", "Mr. Mills", "Bassano", "White Castle"));
-                add("logo", random("http://res.cloudinary.com/emmet/image/upload/v1450802797/Rizzo11_sctvic.png",
-                        "http://res.cloudinary.com/emmet/image/upload/v1450802738/The_Muppets-0014-20110912-28_psy9km.jpg",
-                        "http://res.cloudinary.com/emmet/image/upload/v1450802737/piggy_qseiqx.png",
-                        "http://res.cloudinary.com/emmet/image/upload/v1450802736/638full-poster_hnz8op.jpg",
-                        "http://res.cloudinary.com/emmet/image/upload/v1450802706/fozzie_big_uwvzsg.png"));
+                add("logo", random("https://res.cloudinary.com/emmet/image/upload/v1450802797/Rizzo11_sctvic.png",
+                        "https://res.cloudinary.com/emmet/image/upload/v1450802738/The_Muppets-0014-20110912-28_psy9km.jpg",
+                        "https://res.cloudinary.com/emmet/image/upload/v1450802737/piggy_qseiqx.png",
+                        "https://res.cloudinary.com/emmet/image/upload/v1450802736/638full-poster_hnz8op.jpg",
+                        "https://res.cloudinary.com/emmet/image/upload/v1450802706/fozzie_big_uwvzsg.png"));
             }
         });
     }
