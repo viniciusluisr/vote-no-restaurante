@@ -27,7 +27,7 @@ public class Startup {
     public void loadData() {
         log.info("Populando o banco de dados com dados iniciais....");
 
-        Restaurant restaurant01 = new Restaurant("Subway", "https://res.cloudinary.com/emmet/image/upload/v1450751788/subway_xtbjsj.png");
+        Restaurant restaurant01 = new Restaurant("Subway", "http://res.cloudinary.com/emmet/image/upload/v1451280438/Subway_new_logo_bkbhdh.png");
         Restaurant restaurant02 = new Restaurant("Outback", "https://res.cloudinary.com/emmet/image/upload/v1450751788/outback_dzej9w.jpg");
         Restaurant restaurant03 = new Restaurant("McDonalds", "https://res.cloudinary.com/emmet/image/upload/v1450751787/mcdonalds_tpxbar.jpg");
         Restaurant restaurant04 = new Restaurant("Burger King", "https://res.cloudinary.com/emmet/image/upload/v1450751787/burgerking_r85emd.jpg");
