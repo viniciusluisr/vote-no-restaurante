@@ -83,7 +83,7 @@ public class UserServiceTest extends TestFixtureSupport {
     @Test
     public void testRefreshRanking() {
         when(restaurantService.findRestaurantById(any(Long.class))).thenReturn(expectedRestaurant);
-        when(rankingRepository.findByRestaurant(any(Restaurant.class))).thenReturn(expectedRanking);
+        when(rankingRepository.findByRestaurantAndUser(any(Restaurant.class), any(User.class))).thenReturn(expectedRanking);
     }
 
     private Optional<User> getExpectedUser() {

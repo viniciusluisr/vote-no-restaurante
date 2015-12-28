@@ -36,5 +36,4 @@ public class UserResource {
     public HttpEntity<User> createUser(@RequestBody UserRequest userRequest) {
         return new ResponseEntity<User>(userService.createUser(userRequest.getUser(), userRequest.getVotes()).get(), HttpStatus.CREATED);
     }
-
 }

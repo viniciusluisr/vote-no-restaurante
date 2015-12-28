@@ -19,9 +19,10 @@ public class Ranking extends BaseEntity {
 
     public Ranking(){}
 
-    public Ranking(final Restaurant restaurant, final Integer points) {
+    public Ranking(final Restaurant restaurant, final User user, final Integer points) {
         this.restaurant = restaurant;
         this.points = points;
+        this.user = user;
     }
 
     @ApiModelProperty(value = "O ID do Ranking")
@@ -33,6 +34,11 @@ public class Ranking extends BaseEntity {
     @JoinColumn(nullable = false)
     @ManyToOne
     private Restaurant restaurant;
+
+    @ApiModelProperty(value = "O usuário correspondente a este ranking")
+    @JoinColumn(nullable = true)
+    @ManyToOne
+    private User user;
 
     @ApiModelProperty(value = "a pontuação do Restaurante correspondente a este ranking")
     @Column()

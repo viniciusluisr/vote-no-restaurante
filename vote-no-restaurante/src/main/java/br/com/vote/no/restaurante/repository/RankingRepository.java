@@ -2,6 +2,8 @@ package br.com.vote.no.restaurante.repository;
 
 import br.com.vote.no.restaurante.model.Ranking;
 import br.com.vote.no.restaurante.model.Restaurant;
+import br.com.vote.no.restaurante.model.User;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +17,6 @@ import java.util.Optional;
 public interface RankingRepository extends JpaRepository<Ranking, Long> {
 
     Optional<Ranking> findByRestaurant(final Restaurant restaurant);
-
-//    List<Ranking> findOrderByPoints();
+    Optional<Ranking> findByRestaurantAndUser(final Restaurant restaurant, final User user);
 
 }

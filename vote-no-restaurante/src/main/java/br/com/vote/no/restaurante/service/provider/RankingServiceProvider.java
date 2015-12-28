@@ -39,7 +39,22 @@ public class RankingServiceProvider implements RankingService {
     @Override
     public List<Ranking> getGeneralRanking() {
         log.info("Obtendo o ranking geral de restaurantes");
-        return rankingRepository.findAll(new Sort(Sort.Direction.DESC, "points"));
+
+        Map<Restaurant, List<Ranking>> rankingsByRestaurant = rankingRepository.findAll(new Sort(Sort.Direction.DESC, "points")).stream().collect(Collectors.groupingBy(r -> r.getRestaurant()));
+        List<Ranking> rankings = new ArrayList<>();
+        for(Restaurant restaurant : rankingsByRestaurant.keySet())   {
+            Integer points = 0;
+            if(rankingsByRestaurant.get(restaurant).size() > 1) {
+                for(Ranking ranking : rankingsByRestaurant.get(restaurant)) {
+                    points += ranking.getPoints();
+                }
+                rankings.add(new Ranking(restaurant, null, points));
+            } else {
+                rankings.add(rankingsByRestaurant.get(restaurant).get(0));
+            }
+        }
+
+        return rankings;
     }
 
     @Override
@@ -58,10 +73,10 @@ public class RankingServiceProvider implements RankingService {
         Map<Long, List<Vote>> votesByRestaurant = votes.stream().collect(Collectors.groupingBy(v -> v.getRestaurant().getId()));
 
         for(Long id : votesByRestaurant.keySet())   {
-            Optional<Ranking> ranking = rankingRepository.findByRestaurant(restaurantService.findRestaurantById(id).get());
+            Optional<Ranking> ranking = rankingRepository.findByRestaurantAndUser(restaurantService.findRestaurantById(id).get(), user);
             rankings.add(ranking.get());
         }
-        rankings.sort(Comparator.comparing(Ranking::getPoints));
+        rankings.sort(Comparator.comparing(Ranking::getPoints).reversed());
         return rankings;
     }
 

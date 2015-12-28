@@ -44,7 +44,9 @@ public class RankingResourceTest extends TestFixtureSupport {
 
         List<Vote> expectedVotes = Arrays.asList(vote1, vote2);
 
-        UserRequest userRequest = new UserRequest(getExpectedUserWithoutId().get(), expectedVotes);
+        // Creating user object manually in order to prevent conflicts with the next test method
+        User user = new User("vinicius.x@icloud.com", "Vinícius Luis Rodrigues de Souza");
+        UserRequest userRequest = new UserRequest(user, expectedVotes);
 
         ResponseEntity<User> responseEntity = TestApiEndpoints.createUser(userRequest);
 

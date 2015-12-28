@@ -56,16 +56,16 @@ public class UserServiceProvider implements UserService {
             voteRepository.save(vote);
         });
 
-        refreshRanking(votes);
+        refreshRanking(votes, found != null ? found : user);
 
         return found != null ? Optional.of(found) : Optional.of(user);
     }
 
-    private void refreshRanking(final List<Vote> votes) {
+    private void refreshRanking(final List<Vote> votes, final User user) {
         Map<Long, List<Vote>> votesByRestaurant = votes.stream().collect(Collectors.groupingBy(v -> v.getRestaurant().getId()));
 
         for(Long id : votesByRestaurant.keySet())   {
-            Optional<Ranking> ranking = rankingRepository.findByRestaurant(restaurantService.findRestaurantById(id).get());
+            Optional<Ranking> ranking = rankingRepository.findByRestaurantAndUser(restaurantService.findRestaurantById(id).get(), user);
             Integer points = null;
             if(ranking.isPresent()) {
                 points = ranking.get().getPoints();
@@ -74,7 +74,7 @@ public class UserServiceProvider implements UserService {
                 rankingRepository.save(ranking.get());
             } else {
                 points =+ votesByRestaurant.get(id).size();
-                Ranking newRanking = new Ranking(restaurantService.findRestaurantById(id).get(), points);
+                Ranking newRanking = new Ranking(restaurantService.findRestaurantById(id).get(), user, points);
                 rankingRepository.save(newRanking);
             }
         }

@@ -19,10 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.data.domain.Sort;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -60,7 +57,22 @@ public class RankingServiceTest extends TestFixtureSupport {
     public void testGetGeneralRanking() {
         when(rankingRepository.findAll(new Sort(Sort.Direction.DESC, "points"))).thenReturn(expectedRankings);
         List<Ranking> rankings = rankingService.getGeneralRanking();
-        assertThat(expectedRankings, equalTo(rankings));
+
+        Map<Restaurant, List<Ranking>> rankingsByRestaurant = expectedRankings.stream().collect(Collectors.groupingBy(r -> r.getRestaurant()));
+        List<Ranking> list = new ArrayList<>();
+        for(Restaurant restaurant : rankingsByRestaurant.keySet())   {
+            Integer points = 0;
+            if(rankingsByRestaurant.get(restaurant).size() > 1) {
+                for(Ranking ranking : rankingsByRestaurant.get(restaurant)) {
+                    points += ranking.getPoints();
+                }
+                list.add(new Ranking(restaurant, null, points));
+            } else {
+                list.add(rankingsByRestaurant.get(restaurant).get(0));
+            }
+        }
+
+        assertThat(list, equalTo(rankings));
     }
 
     @Test
@@ -68,21 +80,16 @@ public class RankingServiceTest extends TestFixtureSupport {
         when(userRepository.findOne(any(Long.class))).thenReturn(expectedUser.get());
         when(voteRepository.findByUser(any(User.class))).thenReturn(expectedVotes);
         when(restaurantService.findRestaurantById(any(Long.class))).thenReturn(expectedRestaurant);
-        when(rankingRepository.findByRestaurant(any(Restaurant.class))).thenReturn(expectedRanking);
+        when(rankingRepository.findByRestaurantAndUser(any(Restaurant.class), any(User.class))).thenReturn(expectedRanking);
         List<Ranking> rankings = rankingService.getRankingByUser(expectedUser.get().getId());
 
         List<Ranking> list = new ArrayList<>();
         Map<Long, List<Vote>> votesByRestaurant = expectedVotes.stream().collect(Collectors.groupingBy(v -> v.getRestaurant().getId()));
-            for(Long id : votesByRestaurant.keySet())   {
-        Optional<Ranking> ranking = rankingRepository.findByRestaurant(restaurantService.findRestaurantById(id).get());
-        ranking.ifPresent( r -> {
-            Integer points = r.getPoints();
-            points += votesByRestaurant.get(id).size();
-            r.setPoints(points);
-            list.add(r);
-        });
-    }
-
+        for(Long id : votesByRestaurant.keySet())   {
+            Optional<Ranking> ranking = rankingRepository.findByRestaurantAndUser(restaurantService.findRestaurantById(id).get(), expectedUser.get());
+            list.add(ranking.get());
+         }
+        rankings.sort(Comparator.comparing(Ranking::getPoints).reversed());
         assertThat(list, equalTo(rankings));
     }
 
