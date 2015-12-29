@@ -67,7 +67,7 @@ public class VotingServiceProvider implements VotingService {
 
     }
 
-    private void preparePreference(Restaurant selected, Restaurant discarded) {
+    private void preparePreference(final Restaurant selected, final Restaurant discarded) {
         if(selected == null) return;
 
         if(preferences.isEmpty()) {
@@ -101,7 +101,7 @@ public class VotingServiceProvider implements VotingService {
         return null;
     }
 
-    private Integer getPosition(Restaurant restaurante, boolean posterior, boolean previous){
+    private Integer getPosition(final Restaurant restaurante, final boolean posterior, final boolean previous){
         Integer position = 0;
         for(int i = 0; i < preferences.size(); i++){
             if(restaurante.equals(preferences.get(i))){
