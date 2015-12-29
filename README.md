@@ -16,7 +16,7 @@
 - Swagger
 
 # How to use
-- Para rodar o projeto é necessário ter o Java 8 e Mave instalados. Feito isso, vá até a raiz do projeto onde o pom.xml se encontra e execute o seguinte comando: mvn clean package spring-boot:run. Ok, agora a API está no ar. Para rodar o client do projeto, por favor, siga as instruções no link abaixo:
+- Para rodar o projeto é necessário ter o Java 8 e Maven instalados. Feito isso, vá até a raiz do projeto onde o pom.xml se encontra e execute o seguinte comando: mvn clean package spring-boot:run. Ok, agora a API está no ar. Para rodar o client do projeto, por favor, siga as instruções no link abaixo:
 
 https://github.com/viniciusluisr/vote-no-restaurante-app
 
