@@ -169,8 +169,4 @@ public class VotingServiceTest extends TestFixtureSupport {
         }
     }
 
-    private void testing(final String param) {
-
-    }
-
 }
