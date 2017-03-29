@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
  * Created by Vinicius on 24/12/15.
  */
 @ApiModel("Objeto que representa um Restaurante")
-//@Data
+@Data
 @Entity
 public class Ranking extends BaseEntity {
 
@@ -43,32 +43,4 @@ public class Ranking extends BaseEntity {
     @ApiModelProperty(value = "a pontuação do Restaurante correspondente a este ranking")
     @Column()
     private Integer points;
-
-    public Long getId() {
-        return id;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Integer getPoints() {
-        return points;
-    }
-
-    public void setPoints(Integer points) {
-        this.points = points;
-    }
 }
