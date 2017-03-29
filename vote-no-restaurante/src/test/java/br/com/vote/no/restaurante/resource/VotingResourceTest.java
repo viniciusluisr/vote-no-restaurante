@@ -3,6 +3,7 @@ package br.com.vote.no.restaurante.resource;
 import br.com.vote.no.restaurante.Application;
 import br.com.vote.no.restaurante.model.Restaurant;
 import br.com.vote.no.restaurante.model.Voting;
+import br.com.vote.no.restaurante.resource.param.RankingResponse;
 import br.com.vote.no.restaurante.resource.param.RestaurantResponse;
 import br.com.vote.no.restaurante.support.TestApiEndpoints;
 import br.com.vote.no.restaurante.support.TestFixtureSupport;
@@ -64,6 +65,10 @@ public class VotingResourceTest extends TestFixtureSupport {
 
     private ResponseEntity<Voting> getExpectedVoting() {
         return TestApiEndpoints.beginVoting();
+    }
+
+    private ResponseEntity<RankingResponse> getRanking() {
+        return TestApiEndpoints.getGeneralRanking();
     }
 
 }
